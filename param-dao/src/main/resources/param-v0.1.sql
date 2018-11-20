@@ -1,6 +1,6 @@
 /*
 SQLyog v10.2
-MySQL - 5.5.49 : Database - pinyougoudb
+MySQL - 8.0.12 : Database - param
 *********************************************************************
 */
 

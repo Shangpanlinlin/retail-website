@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>brand manage</title>
+    <title>Brand Manage</title>
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
@@ -18,17 +18,97 @@
 	<script src="../plugins/angularjs/pagination.js"></script>
 	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
 	<!-- 分页组件结束 -->
-	
-	<script type="text/javascript" src="../js/base_pagination.js"></script>
+
+	<!--test-->
+	<script>
+		var pinyougou = angular.module("pinyougou", ["pagination"]);
+        pinyougou.controller("brandController",function($scope,$http){
+            	$scope.onLoad = function(){
+                    $http.get("http://localhost:9101/brand/findAll.do").success(function(response){
+                        $scope.list= response;
+                    });
+				}
+            //分页控件配置
+            $scope.paginationConf = {
+                currentPage: 1,
+                totalItems: 10,
+                itemsPerPage: 10,
+                perPageOptions: [10, 20, 30, 40, 50],
+                onChange: function(){
+                    $scope.reloadList();
+                }
+            };
+
+			$scope.reloadList = function(){
+                $scope.findPage($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
+			};
+
+			$scope.searchEntity={};
+
+			$scope.findPage = function(page,size){
+			    $http.post("../brand/search.do?pageNum="+page+"&pageSize="+size,$scope.searchEntity).success(function(response){
+                    $scope.paginationConf.totalItems = response.totalNum;
+                    $scope.list = response.list;
+				});
+			};
+
+			$scope.findOne = function(id){
+			    $http.get("../brand/findOne.do?id=" + id).success(function(response){
+			        $scope.entity = response;
+                });
+            };
+
+			$scope.selectedIds = []
+			$scope.updateSelection = function($event, id){
+			    if($event.target.checked){
+			        $scope.selectedIds.push(id);
+				}else{
+			        var index = $scope.selectedIds.indexOf(id);
+			        $scope.selectedIds.splice(index, 1);
+				}
+			};
+
+			$scope.dele = function(){
+
+			    $http.get("../brand/delete.do?ids="+$scope.selectedIds).success(function (response) {
+					if(response.success){
+					    $scope.reloadList();
+					    $scope.selectedIds=[];
+					}else{
+					    alert(response.message);
+					}
+                });
+			};
+
+			$scope.save = function(){
+			    var methodName= "save";
+			    if($scope.entity.id != null){
+			        methodName = "edit";
+                }
+			    $http.post("../brand/"+methodName+".do",$scope.entity).success(function (response) {
+                    if(response.success){
+                        $scope.reloadList();
+                    }else{
+                        alert("Add new brand information failed");
+                    }
+                });
+            };
+
+        });
+
+	</script>
+
+	<!--commented -->
+<!--	<script type="text/javascript" src="../js/base_pagination.js"></script>
 	<script type="text/javascript" src="../js/service/brandService.js"></script>
 	<script type="text/javascript" src="../js/controller/baseController.js"></script>
-	<script type="text/javascript" src="../js/controller/brandController.js"></script>
+	<script type="text/javascript" src="../js/controller/brandController.js"></script>-->
     
 </head>
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="brandController" >
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="brandController">
   <!-- .box-body -->
                     <div class="box-header with-border">
-                        <h3 class="box-title">brand manage</h3>
+                        <h3 class="box-title">Brand Manage</h3>
                     </div>
 
                     <div class="box-body">
@@ -40,16 +120,16 @@
                             <div class="pull-left">
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ng-click="entity={}" ><i class="fa fa-file-o"></i> new</button>
-                                        <button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o" ></i> del</button>
-                                        <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> refresh</button>
+                                        <button type="button" class="btn btn-default" title="new" data-toggle="modal" data-target="#editModal" ng-click="entity={}" ><i class="fa fa-file-o"></i> New</button>
+                                        <button type="button" class="btn btn-default" title="delete" ng-click="dele()"><i class="fa fa-trash-o" ></i> Delete</button>
+                                        <button type="button" class="btn btn-default" title="refresh" onclick="window.location.reload();"><i class="fa fa-refresh"></i> Refresh</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="box-tools pull-right">
                                 <div class="has-feedback">
-							          brand name:<input ng-model="searchEntity.name"> brand abbr:<input ng-model="searchEntity.firstChar">
-							          <button  class="btn btn-default" ng-click="reloadList()">search</button>
+							          Brand name:<input ng-model="searchEntity.name"> First letter:<input ng-model="searchEntity.firstChar">
+							          <button  class="btn btn-default" ng-click="reloadList()">Search</button>
                                 </div>
                             </div>
                             <!--工具栏/-->
@@ -61,10 +141,10 @@
 			                              <th class="" style="padding-right:0px">
 			                                  <input id="selall" type="checkbox" class="icheckbox_square-blue">
 			                              </th> 
-										  <th class="sorting_asc">brand ID</th>
-									      <th class="sorting">brand name</th>
-									      <th class="sorting">brand abbr</th>
-					                      <th class="text-center">operation</th>
+										  <th class="sorting_asc">Brand ID</th>
+									      <th class="sorting">Brand name</th>
+									      <th class="sorting">First letter</th>
+					                      <th class="text-center">Operation</th>
 			                          </tr>
 			                      </thead>
 			                      <tbody>
@@ -98,23 +178,23 @@
 	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			<h3 id="myModalLabel">brand edit</h3>
+			<h3 id="myModalLabel">Add New Brand</h3>
 		</div>
 		<div class="modal-body">		
 			<table class="table table-bordered table-striped"  width="800px">
 		      	<tr>
-		      		<td>brand name</td>
-		      		<td><input  class="form-control" placeholder="品牌名称" ng-model="entity.name">  </td>
+		      		<td>Brand name</td>
+		      		<td><input  class="form-control" placeholder="Brand name" ng-model="entity.name">  </td>
 		      	</tr>		      	
 		      	<tr>
-		      		<td>brand abbr</td>
-		      		<td><input  class="form-control" placeholder="首字母" ng-model="entity.firstChar">  </td>
+		      		<td>First letter</td>
+		      		<td><input  class="form-control" placeholder="First character" ng-model="entity.firstChar"> </td>
 		      	</tr>		      	
 			 </table>				
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="save()">save</button>
-			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">close</button>
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true"  ng-click="save()">Save</button>
+			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
 		</div>
 	  </div>
 	</div>
