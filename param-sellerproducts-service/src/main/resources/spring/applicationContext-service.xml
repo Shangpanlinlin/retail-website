@@ -14,6 +14,4 @@
 	<dubbo:application name="param-sellerproducts-service"/>
     <dubbo:registry address="zookeeper://119.29.175.117:2181"/>
     <dubbo:annotation package="com.param.sellerproducts.service.impl" />
-   
-   
 </beans>

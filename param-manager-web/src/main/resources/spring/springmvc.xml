@@ -28,6 +28,6 @@
 	<dubbo:application name="param-manager-web" />
 	<dubbo:registry address="zookeeper://119.29.175.117:2181" timeout="120000"/>
 	<dubbo:annotation package="com.param.manager.controller" />
-	<!--<context:component-scan base-package="com.param.manager.controller"></context:component-scan>
--->
+	<dubbo:consumer check="false" id="dubboConsumerConfig" retries="0" timeout="12000"/>
+
 </beans>

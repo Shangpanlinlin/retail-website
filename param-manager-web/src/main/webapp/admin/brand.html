@@ -18,91 +18,10 @@
 	<script src="../plugins/angularjs/pagination.js"></script>
 	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
 	<!-- 分页组件结束 -->
-
-	<!--test-->
-	<script>
-		var pinyougou = angular.module("pinyougou", ["pagination"]);
-        pinyougou.controller("brandController",function($scope,$http){
-            	$scope.onLoad = function(){
-                    $http.get("http://localhost:9101/brand/findAll.do").success(function(response){
-                        $scope.list= response;
-                    });
-				}
-            //分页控件配置
-            $scope.paginationConf = {
-                currentPage: 1,
-                totalItems: 10,
-                itemsPerPage: 10,
-                perPageOptions: [10, 20, 30, 40, 50],
-                onChange: function(){
-                    $scope.reloadList();
-                }
-            };
-
-			$scope.reloadList = function(){
-                $scope.findPage($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
-			};
-
-			$scope.searchEntity={};
-
-			$scope.findPage = function(page,size){
-			    $http.post("../brand/search.do?pageNum="+page+"&pageSize="+size,$scope.searchEntity).success(function(response){
-                    $scope.paginationConf.totalItems = response.totalNum;
-                    $scope.list = response.list;
-				});
-			};
-
-			$scope.findOne = function(id){
-			    $http.get("../brand/findOne.do?id=" + id).success(function(response){
-			        $scope.entity = response;
-                });
-            };
-
-			$scope.selectedIds = []
-			$scope.updateSelection = function($event, id){
-			    if($event.target.checked){
-			        $scope.selectedIds.push(id);
-				}else{
-			        var index = $scope.selectedIds.indexOf(id);
-			        $scope.selectedIds.splice(index, 1);
-				}
-			};
-
-			$scope.dele = function(){
-
-			    $http.get("../brand/delete.do?ids="+$scope.selectedIds).success(function (response) {
-					if(response.success){
-					    $scope.reloadList();
-					    $scope.selectedIds=[];
-					}else{
-					    alert(response.message);
-					}
-                });
-			};
-
-			$scope.save = function(){
-			    var methodName= "save";
-			    if($scope.entity.id != null){
-			        methodName = "edit";
-                }
-			    $http.post("../brand/"+methodName+".do",$scope.entity).success(function (response) {
-                    if(response.success){
-                        $scope.reloadList();
-                    }else{
-                        alert("Add new brand information failed");
-                    }
-                });
-            };
-
-        });
-
-	</script>
-
-	<!--commented -->
-<!--	<script type="text/javascript" src="../js/base_pagination.js"></script>
+	<script type="text/javascript" src="../js/base_pagination.js"></script>
 	<script type="text/javascript" src="../js/service/brandService.js"></script>
 	<script type="text/javascript" src="../js/controller/baseController.js"></script>
-	<script type="text/javascript" src="../js/controller/brandController.js"></script>-->
+	<script type="text/javascript" src="../js/controller/brandController.js"></script>
     
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="brandController">
@@ -110,12 +29,9 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">Brand Manage</h3>
                     </div>
-
                     <div class="box-body">
-
                         <!-- 数据表格 -->
                         <div class="table-box">
-
                             <!--工具栏-->
                             <div class="pull-left">
                                 <div class="form-group form-inline">
@@ -133,7 +49,6 @@
                                 </div>
                             </div>
                             <!--工具栏/-->
-
 			                  <!--数据列表-->
 			                  <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
 			                      <thead>
@@ -157,18 +72,12 @@
 		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" ng-click="findOne(entity.id)" >edit</button>
 		                                  </td>
 			                          </tr>
-									  
 			                      </tbody>
 			                  </table>
 			                  <!--数据列表/-->                        
 							  <tm-pagination conf="paginationConf"></tm-pagination>
-							
                         </div>
                         <!-- 数据表格 /-->
-                        
-                        
-                        
-                        
                      </div>
                     <!-- /.box-body -->
          

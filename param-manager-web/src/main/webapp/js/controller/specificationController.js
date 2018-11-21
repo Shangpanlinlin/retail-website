@@ -14,12 +14,7 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 	
 	//分页
 	$scope.findPage=function(page,rows){			
-		specificationService.findPage(page,rows).success(
-			function(response){
-				$scope.list=response.rows;	
-				$scope.paginationConf.totalItems=response.total;//更新总记录数
-			}			
-		);
+		$scope.search(page,rows);
 	}
 	
 	//查询实体 
@@ -55,11 +50,11 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 	//批量删除 
 	$scope.dele=function(){			
 		//获取选中的复选框			
-		specificationService.dele( $scope.selectIds ).success(
+		specificationService.dele( $scope.selectedIds ).success(
 			function(response){
 				if(response.success){
 					$scope.reloadList();//刷新列表
-					$scope.selectIds=[];
+					$scope.selectedIds=[];
 				}						
 			}		
 		);				
@@ -71,13 +66,13 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 	$scope.search=function(page,rows){			
 		specificationService.search(page,rows,$scope.searchEntity).success(
 			function(response){
-				$scope.list=response.rows;	
-				$scope.paginationConf.totalItems=response.total;//更新总记录数
+				$scope.list=response.list;
+				$scope.paginationConf.totalItems=response.totalNum;//更新总记录数
 			}			
 		);
 	}
 	
-	//$scope.entity={specificationOptionList:[]};
+	$scope.entity={specificationOptionList:[]};
 	
 	//增加规格选项行
 	$scope.addTableRow=function(){
