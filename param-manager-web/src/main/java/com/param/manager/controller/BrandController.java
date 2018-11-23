@@ -1,6 +1,7 @@
 package com.param.manager.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.param.pojo.TbBrand;
 import com.param.sellerproducts.service.BrandService;
@@ -74,5 +75,12 @@ public class BrandController {
         return brandService.findPage(tbBrand, pageNum,pageSize);
 
     }
+
+
+    @RequestMapping("/selectBrandOptions")
+    public List<Map> findBrandOptions(){
+        return brandService.findBrandOptions();
+    }
+
 }
 

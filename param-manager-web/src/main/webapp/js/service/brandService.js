@@ -16,4 +16,8 @@ app.service("brandService",function($http){
         return $http.post("../brand/save.do",entity);
     }
 
+    this.selectBrandOptions = function(){
+        return $http.get("../brand/selectBrandOptions.do");
+    }
+
 });

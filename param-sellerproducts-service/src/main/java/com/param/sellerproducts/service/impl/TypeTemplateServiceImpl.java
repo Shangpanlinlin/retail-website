@@ -107,5 +107,4 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 		return new PageResult(page.getTotal(), page.getResult());
 	}
 
-
 }

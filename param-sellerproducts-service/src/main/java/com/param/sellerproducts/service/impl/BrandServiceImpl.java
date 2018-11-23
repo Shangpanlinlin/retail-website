@@ -12,6 +12,7 @@ import entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 @Service  //register the bean as a dubbo service
 public class BrandServiceImpl implements BrandService {
@@ -70,5 +71,10 @@ public class BrandServiceImpl implements BrandService {
 
         Page<TbBrand> page = (Page<TbBrand>) mapper.selectByExample(example);
         return new PageResult(page.getTotal(),page.getResult());
+    }
+
+    @Override
+    public List<Map> findBrandOptions() {
+        return mapper.selectBrandOptions();
     }
 }

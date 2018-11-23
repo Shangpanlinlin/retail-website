@@ -16,12 +16,12 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 	$scope.findPage=function(page,rows){			
 		typeTemplateService.findPage(page,rows).success(
 			function(response){
-				$scope.list=response.rows;	
-				$scope.paginationConf.totalItems=response.total;//更新总记录数
+				$scope.list=response.list;
+				$scope.paginationConf.totalItems=response.totalNum;//更新总记录数
 			}			
 		);
 	}
-	
+
 	//查询实体 
 	$scope.findOne=function(id){				
 		typeTemplateService.findOne(id).success(
@@ -32,7 +32,8 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 				$scope.entity.brandIds=  JSON.parse( $scope.entity.brandIds);
 				$scope.entity.specIds= JSON.parse($scope.entity.specIds);
 				$scope.entity.customAttributeItems = JSON.parse($scope.entity.customAttributeItems);
-				
+				if($scope.entity.customAttributeItems  == null)
+                    $scope.entity.customAttributeItems = [];
 			}
 		);				
 	}
@@ -61,7 +62,7 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 	//批量删除 
 	$scope.dele=function(){			
 		//获取选中的复选框			
-		typeTemplateService.dele( $scope.selectIds ).success(
+		typeTemplateService.dele( $scope.selectedIds ).success(
 			function(response){
 				if(response.success){
 					$scope.reloadList();//刷新列表
@@ -77,8 +78,8 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 	$scope.search=function(page,rows){			
 		typeTemplateService.search(page,rows,$scope.searchEntity).success(
 			function(response){
-				$scope.list=response.rows;	
-				$scope.paginationConf.totalItems=response.total;//更新总记录数
+				$scope.list=response.list;
+				$scope.paginationConf.totalItems=response.totalNum;//更新总记录数
 			}			
 		);
 	}
@@ -87,15 +88,14 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
     
 	//读取品牌列表
 	$scope.findBrandList=function(){
-		brandService.selectOptionList().success(
+		brandService.selectBrandOptions().success(
 			function(response){
 				$scope.brandList={data:response};
 			}
 		);		
 	}
 	
-	$scope.specList={data:[]};//规格列表
-	
+
 	//读取规格列表
 	$scope.findSpecList=function(){
 		specificationService.selectOptionList().success(
@@ -104,7 +104,8 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 				}
 		);		
 	}
-	
+    $scope.entity = {customAttributeItems:[]};
+
 	//增加扩展属性行
 	$scope.addTableRow=function(){
 		$scope.entity.customAttributeItems.push({});
@@ -113,5 +114,6 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 	$scope.deleTableRow=function(index){
 		$scope.entity.customAttributeItems.splice( index,1);
 	}
-	
-});	
+
+
+});

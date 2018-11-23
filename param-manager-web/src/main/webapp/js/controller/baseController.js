@@ -24,4 +24,17 @@ app.controller('baseController' ,function($scope){
             $scope.selectedIds.splice(index, 1);
         }
     };
+
+    $scope.jsonToString = function(jsonString, key){
+        var object =   JSON.parse(jsonString);
+        var value = "";
+        for(i=0; i < object.length; i++){
+            if(i>0){
+                value += ", "+object[i][key];
+            }
+            else
+                value += object[i][key];
+        }
+        return value;
+    }
 });	

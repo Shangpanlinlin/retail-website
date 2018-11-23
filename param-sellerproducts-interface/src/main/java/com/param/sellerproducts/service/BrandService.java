@@ -5,6 +5,7 @@ import entity.PageResult;
 import entity.Result;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BrandService {
     List<TbBrand> findAll();
@@ -20,4 +21,6 @@ public interface BrandService {
     void deleteBrands(long[] ids);
 
     PageResult findPage(TbBrand tbBrand, int pageNum, int pageSize);
+
+    List<Map> findBrandOptions();
 }
