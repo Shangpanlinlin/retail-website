@@ -13,10 +13,17 @@
     <link rel="stylesheet" href="../css/style.css">
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+
+	<script type="text/javascript" src="../js/base.js"></script>
+	<script type="text/javascript" src="../js/service/itemCatService.js"></script>
+	<script type="text/javascript" src="../js/controller/baseController.js"></script>
+	<script type="text/javascript" src="../js/controller/itemCatController.js"></script>
     
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" >
+<body class="hold-transition skin-red sidebar-mini" ng-app = "pinyougou" ng-controller="itemCatController" ng-init="findByParentId(0)" >
   <!-- .box-body -->
                 
                     <div class="box-header with-border">
@@ -25,16 +32,10 @@
                     </div>
 
                     <div class="box-body">
-                  			 <ol class="breadcrumb">	                        	
-                        		<li>
-		                        	<a href="#" >category list</a>
-		                        </li>
-		                        <li>
-		                       		<a href="#" >hardware</a>
-		                        </li>
-		                        <li>
-		                        	<a href="#" >party-supplies</a>
-		                        </li>
+                  			 <ol class="breadcrumb">
+								 <li><a href="#" ng-click="grade=1;selectList({id:0})">parent category</a></li>
+								 <li><a href="#" ng-click="grade=2;selectList(entity_1)">{{entity_1.name}}</a></li>
+								 <li><a href="#" ng-click="grade=3;selectList(entity_2)">{{entity_2.name}}</a></li>
 	                        </ol>
 
                         <!-- 数据表格 -->
@@ -62,22 +63,23 @@
 			                              </th> 
 										  <th class="sorting_asc">category ID</th>
 									      <th class="sorting">category name</th>
-									      <th class="sorting">category URL</th>
-										  <th class="sorting">category parent ID</th>
+									      <th class="sorting">category type template</th>
 					                      <th class="text-center">operation</th>
 			                          </tr>
 			                      </thead>
-			                      <tbody>
-			                          <tr >
+
+								  <tbody>
+			                          <tr ng-repeat="entity in list">
 			                              <td><input  type="checkbox" ></td>			                              
-				                          <td>405</td>
-									      <td>hardware</td>
-									      <td>
-											  https://www.paramountmerchandise.co.nz/hardware
-									      </td>
-										  <td>244</td>
+				                          <td>{{entity.id}}</td>
+									      <td>{{entity.name}}</td>
+									      <td>{{entity.typeId}}</td>
+										  <td>
+											  <span ng-if="grade!=3">
+													<button type="button" class="btn bg-olive btn-xs" ng-click="setGrade(grade+1);selectList(entity)">查询下级</button>
+											  </span>
+										  </td>
 										  <td class="text-center">
-		                                      <button type="button" class="btn bg-olive btn-xs" >parent category</button>
 		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" >edit</button>
 		                                  </td>
 			                          </tr>
@@ -87,10 +89,7 @@
 						
                         </div>
                         <!-- 数据表格 /-->
-                        
-                        
-                        
-                        
+
                      </div>
                     <!-- /.box-body -->
               
