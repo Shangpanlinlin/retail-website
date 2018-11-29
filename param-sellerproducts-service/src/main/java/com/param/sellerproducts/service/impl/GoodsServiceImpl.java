@@ -19,7 +19,7 @@ import entity.PageResult;
  * @author Administrator
  *
  */
-@Service
+@Service(retries = 0)
 public class GoodsServiceImpl implements GoodsService {
 
 	@Autowired

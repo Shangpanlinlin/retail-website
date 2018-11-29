@@ -66,18 +66,6 @@ app.controller('itemCatController' ,function($scope,$controller ,itemCatService,
 	//批量删除 
 	$scope.dele=function(){			
 		//获取选中的复选框			
-		var idArray = $scope.selectedIds.split(",");
-		alert(idArray);
-		idArray.forEach(function(value, index, array){
-			itemCatService.findByParentId(value).success(function(response){
-				alert(value);
-				if(response != null && response.length >0){
-					alert("id:"+ value + " has sub categories, should delete all subcategories before delete");
-					return;
-				}
-			});
-		});
-
 		itemCatService.dele( $scope.selectedIds ).success(
 			function(response){
 				if(response.success){
