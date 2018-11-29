@@ -1,5 +1,5 @@
  //控制层 
-app.controller('itemCatController' ,function($scope,$controller   ,itemCatService){	
+app.controller('itemCatController' ,function($scope,$controller ,itemCatService, typeTemplateService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -33,7 +33,18 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 	
 	//保存 
 	$scope.save=function(){				
-		var serviceObject;//服务层对象  				
+		var serviceObject;//服务层对象
+		var parent;
+		if($scope.entity_2 != null){
+			$scope.entity.parentId  = $scope.entity_2.id;
+			parent = $scope.entity_2;
+		}else if($scope.entity_1 != null){
+			$scope.entity.parentId = $scope.entity_1.id;
+			parent = $scope.entity_1
+		} else {
+            $scope.entity.parentId = 0;
+            parent = {id:0}
+		}
 		if($scope.entity.id!=null){//如果有ID
 			serviceObject=itemCatService.update( $scope.entity ); //修改  
 		}else{
@@ -43,7 +54,7 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 			function(response){
 				if(response.success){
 					//重新查询 
-		        	$scope.reloadList();//重新加载
+		        	$scope.selectList(parent);//重新加载
 				}else{
 					alert(response.message);
 				}
@@ -55,11 +66,31 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 	//批量删除 
 	$scope.dele=function(){			
 		//获取选中的复选框			
-		itemCatService.dele( $scope.selectIds ).success(
+		var idArray = $scope.selectedIds.split(",");
+		alert(idArray);
+		idArray.forEach(function(value, index, array){
+			itemCatService.findByParentId(value).success(function(response){
+				alert(value);
+				if(response != null && response.length >0){
+					alert("id:"+ value + " has sub categories, should delete all subcategories before delete");
+					return;
+				}
+			});
+		});
+
+		itemCatService.dele( $scope.selectedIds ).success(
 			function(response){
 				if(response.success){
-					$scope.reloadList();//刷新列表
-					$scope.selectIds=[];
+                    var parent;
+                    if($scope.entity_2 != null){
+                        parent = $scope.entity_2;
+                    }else if($scope.entity_1 != null){
+                        parent = $scope.entity_1
+                    } else {
+                        parent = {id:0}
+                    }
+					$scope.selectedIds=[];
+                    $scope.selectList(parent);//重新加载
 				}						
 			}		
 		);				
@@ -103,6 +134,16 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
         }
         $scope.findByParentId(p_entity.id);	//查询此级下级列表
     }
+
+    $scope.findTypeTemplateList = function(){
+    	typeTemplateService.selectOptionList().success(
+    		function(response){
+              $scope.typeTemplateList = {data:response}
+		});
+	}
+
+
+
 
 
 });	

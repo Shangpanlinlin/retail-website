@@ -1,5 +1,6 @@
 package com.param.sellerproducts.service;
 import java.util.List;
+import java.util.Map;
 
 import com.param.pojo.TbItemCat;
 import entity.PageResult;
@@ -59,4 +60,5 @@ public interface ItemCatService {
 	public PageResult findPage(TbItemCat itemCat, int pageNum, int pageSize);
 
 	public List<TbItemCat> findByParentId(Long id);
+
 }

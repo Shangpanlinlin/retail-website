@@ -1,7 +1,9 @@
 package com.param.sellerproducts.service.impl;
 import java.util.List;
+import java.util.Map;
 
 import com.param.mapper.TbItemCatMapper;
+import com.param.mapper.TbTypeTemplateMapper;
 import com.param.pojo.TbItemCat;
 import com.param.pojo.TbItemCatExample;
 import com.param.sellerproducts.service.ItemCatService;
@@ -22,6 +24,8 @@ public class ItemCatServiceImpl implements ItemCatService {
 
 	@Autowired
 	private TbItemCatMapper itemCatMapper;
+
+
 	
 	/**
 	 * 查询全部
@@ -104,5 +108,6 @@ public class ItemCatServiceImpl implements ItemCatService {
 		criteria.andParentIdEqualTo(id);
 		return itemCatMapper.selectByExample(example);
 	}
+
 
 }

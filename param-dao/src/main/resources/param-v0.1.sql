@@ -144,30 +144,25 @@ insert  into `tb_content_category`(`id`,`name`) values (5,'new arrival adv');
 
 
 /*Table structure for table `tb_goods` this will save products.  SPU table*/
-
 CREATE TABLE `tb_goods` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'primary key',
-  `name` varchar(100) NOT NULL COMMENT 'product name',
-  `SKU` bigint(20) NOT NULL COMMENT 'SKU',
-  `audit_status` varchar(2) NOT NULL COMMENT 'audit status',
-  `is_marketable` varchar(1) NOT NULL COMMENT 'if this item will be put on web for sale, 1-put on web 0-not put on web',
-  `brand_id` bigint(10) NOT NULL COMMENT 'brand',
-  `barcode` varchar(20) DEFAULT NULL,
-  `in_stock` varchar(1) NOT NULL,
-  `caption` varchar(100) DEFAULT NULL COMMENT 'sub-title',
-  `category1_id` bigint(20) NOT NULL COMMENT 'first level category',
-  `category2_id` bigint(10) DEFAULT NULL COMMENT 'second level category',
-  `category3_id` bigint(10) DEFAULT NULL COMMENT 'third level category',
-  `image` varchar(150) NOT NULL COMMENT 'image',
-  `pack_size` varchar(10) DEFAULT NULL COMMENT '',
-  `discounted_price` decimal(10,2) NOT NULL COMMENT '',
-  `save_percent` decimal(10,2) DEFAULT NULL COMMENT '',
-  `retail_price` decimal(10,2) DEFAULT NULL COMMENT 'retail price',
-  `type_template_id` bigint(20) DEFAULT NULL COMMENT 'category template ID',
-  `is_enable_spec` varchar(1) DEFAULT NULL COMMENT 'if this item use the specification template. 1-will use 0-do not use',
-  `is_delete` varchar(1) DEFAULT NULL COMMENT 'is deleted, this is logical delete tag, we do not really remove item from table',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `seller_id` varchar(20) DEFAULT NULL COMMENT '商家ID',
+  `goods_name` varchar(100) DEFAULT NULL COMMENT 'SPU名',
+  `default_item_id` bigint(20) DEFAULT NULL COMMENT '默认SKU',
+  `audit_status` varchar(2) DEFAULT NULL COMMENT '状态',
+  `is_marketable` varchar(1) DEFAULT NULL COMMENT '是否上架',
+  `brand_id` bigint(10) DEFAULT NULL COMMENT '品牌',
+  `caption` varchar(100) DEFAULT NULL COMMENT '副标题',
+  `category1_id` bigint(20) DEFAULT NULL COMMENT '一级类目',
+  `category2_id` bigint(10) DEFAULT NULL COMMENT '二级类目',
+  `category3_id` bigint(10) DEFAULT NULL COMMENT '三级类目',
+  `small_pic` varchar(150) DEFAULT NULL COMMENT '小图',
+  `price` decimal(10,2) DEFAULT NULL COMMENT '商城价',
+  `type_template_id` bigint(20) DEFAULT NULL COMMENT '分类模板ID',
+  `is_enable_spec` varchar(1) DEFAULT NULL COMMENT '是否启用规格',
+  `is_delete` varchar(1) DEFAULT NULL COMMENT '是否删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=149187842867962 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_goods` */
 

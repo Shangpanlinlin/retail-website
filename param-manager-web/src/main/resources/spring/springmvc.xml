@@ -24,10 +24,19 @@
 	  </mvc:message-converters>  
 	</mvc:annotation-driven>
 
+	<!--配置多媒体解析器-->
+	<bean id="multipartResolver"
+	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<!--5*1024*1024, 5m-->
+		<property name="maxUploadSize" value="5242880"></property>
+	</bean>
+
 	<!-- 引用dubbo 服务 -->
 	<dubbo:application name="param-manager-web" />
 	<dubbo:registry address="zookeeper://119.29.175.117:2181" timeout="120000"/>
 	<dubbo:annotation package="com.param.manager.controller" />
 	<dubbo:consumer check="false" id="dubboConsumerConfig" retries="0" timeout="12000"/>
+
 
 </beans>

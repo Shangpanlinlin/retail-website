@@ -3,22 +3,20 @@ package com.param.pojo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class TbGoods  implements Serializable {
+public class TbGoods implements Serializable{
     private Long id;
 
-    private String name;
+    private String sellerId;
 
-    private Long sku;
+    private String goodsName;
+
+    private Long defaultItemId;
 
     private String auditStatus;
 
     private String isMarketable;
 
     private Long brandId;
-
-    private String barcode;
-
-    private String inStock;
 
     private String caption;
 
@@ -28,15 +26,9 @@ public class TbGoods  implements Serializable {
 
     private Long category3Id;
 
-    private String image;
+    private String smallPic;
 
-    private String packSize;
-
-    private BigDecimal discountedPrice;
-
-    private BigDecimal savePercent;
-
-    private BigDecimal retailPrice;
+    private BigDecimal price;
 
     private Long typeTemplateId;
 
@@ -52,20 +44,28 @@ public class TbGoods  implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getSellerId() {
+        return sellerId;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId == null ? null : sellerId.trim();
     }
 
-    public Long getSku() {
-        return sku;
+    public String getGoodsName() {
+        return goodsName;
     }
 
-    public void setSku(Long sku) {
-        this.sku = sku;
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName == null ? null : goodsName.trim();
+    }
+
+    public Long getDefaultItemId() {
+        return defaultItemId;
+    }
+
+    public void setDefaultItemId(Long defaultItemId) {
+        this.defaultItemId = defaultItemId;
     }
 
     public String getAuditStatus() {
@@ -90,22 +90,6 @@ public class TbGoods  implements Serializable {
 
     public void setBrandId(Long brandId) {
         this.brandId = brandId;
-    }
-
-    public String getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(String barcode) {
-        this.barcode = barcode == null ? null : barcode.trim();
-    }
-
-    public String getInStock() {
-        return inStock;
-    }
-
-    public void setInStock(String inStock) {
-        this.inStock = inStock == null ? null : inStock.trim();
     }
 
     public String getCaption() {
@@ -140,44 +124,20 @@ public class TbGoods  implements Serializable {
         this.category3Id = category3Id;
     }
 
-    public String getImage() {
-        return image;
+    public String getSmallPic() {
+        return smallPic;
     }
 
-    public void setImage(String image) {
-        this.image = image == null ? null : image.trim();
+    public void setSmallPic(String smallPic) {
+        this.smallPic = smallPic == null ? null : smallPic.trim();
     }
 
-    public String getPackSize() {
-        return packSize;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setPackSize(String packSize) {
-        this.packSize = packSize == null ? null : packSize.trim();
-    }
-
-    public BigDecimal getDiscountedPrice() {
-        return discountedPrice;
-    }
-
-    public void setDiscountedPrice(BigDecimal discountedPrice) {
-        this.discountedPrice = discountedPrice;
-    }
-
-    public BigDecimal getSavePercent() {
-        return savePercent;
-    }
-
-    public void setSavePercent(BigDecimal savePercent) {
-        this.savePercent = savePercent;
-    }
-
-    public BigDecimal getRetailPrice() {
-        return retailPrice;
-    }
-
-    public void setRetailPrice(BigDecimal retailPrice) {
-        this.retailPrice = retailPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public Long getTypeTemplateId() {

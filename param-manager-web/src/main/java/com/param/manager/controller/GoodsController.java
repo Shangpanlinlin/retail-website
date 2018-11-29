@@ -2,6 +2,7 @@ package com.param.manager.controller;
 import java.util.List;
 
 import com.param.pojo.TbGoods;
+import com.param.pojogroup.Goods;
 import com.param.sellerproducts.service.GoodsService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +48,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/add")
-	public Result add(@RequestBody TbGoods goods){
+	public Result add(@RequestBody Goods goods){
 		try {
 			goodsService.add(goods);
 			return new Result(true, "增加成功");

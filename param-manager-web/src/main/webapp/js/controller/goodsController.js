@@ -32,7 +32,7 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 	}
 	
 	//保存 
-	$scope.save=function(){				
+	/*$scope.save=function(){
 		var serviceObject;//服务层对象  				
 		if($scope.entity.id!=null){//如果有ID
 			serviceObject=goodsService.update( $scope.entity ); //修改  
@@ -49,7 +49,24 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 				}
 			}		
 		);				
-	}
+	}*/
+
+    $scope.add=function(){
+
+    	$scope.entity.goodsDesc.introduction = editor.html();
+        goodsService.add( $scope.entity  ).success(
+            function(response){
+                if(response.success){
+                    //重新查询
+                    alert("add a new product successfully");
+                    $scope.entity = {};
+                    editor.html("");
+                }else{
+                    alert(response.message);
+                }
+            }
+        );
+    }
 	
 	 
 	//批量删除 

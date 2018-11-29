@@ -13,17 +13,23 @@
     <link rel="stylesheet" href="../css/style.css">
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../plugins/select2/select2.css" />
+    <link rel="stylesheet" href="../plugins/select2/select2-bootstrap.css" />
+    <script src="../plugins/select2/select2.min.js" type="text/javascript"></script>
 
-	<script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+
+    <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
 
 	<script type="text/javascript" src="../js/base.js"></script>
+	<script type="text/javascript" src="../js/angular-select2.js"> </script>
+	<script type="text/javascript" src="../js/service/typeTemplateService.js"></script>
 	<script type="text/javascript" src="../js/service/itemCatService.js"></script>
 	<script type="text/javascript" src="../js/controller/baseController.js"></script>
 	<script type="text/javascript" src="../js/controller/itemCatController.js"></script>
     
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app = "pinyougou" ng-controller="itemCatController" ng-init="findByParentId(0)" >
+<body class="hold-transition skin-red sidebar-mini" ng-app = "pinyougou" ng-controller="itemCatController" ng-init="findByParentId(0);findTypeTemplateList()" >
   <!-- .box-body -->
                 
                     <div class="box-header with-border">
@@ -45,9 +51,9 @@
                             <div class="pull-left">
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> new</button>
-                                        <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> del</button>
-                                        <button type="button" class="btn btn-default" title="刷新" ><i class="fa fa-check"></i> refresh</button>
+                                        <button type="button" class="btn btn-default" title="new" data-toggle="modal" data-target="#editModal" ng-click="entity={}"><i class="fa fa-file-o"></i> new</button>
+                                        <button type="button" class="btn btn-default" title="delete" ng-click="dele()"><i class="fa fa-trash-o"></i> delete</button>
+                                        <button type="button" class="btn btn-default" title="refresh" ><i class="fa fa-check"></i> refresh</button>
                                        
                                     </div>
                                 </div>
@@ -70,17 +76,15 @@
 
 								  <tbody>
 			                          <tr ng-repeat="entity in list">
-			                              <td><input  type="checkbox" ></td>			                              
+			                              <td><input  type="checkbox" ng-click="updateSelection($event, entity.id)" ></td>
 				                          <td>{{entity.id}}</td>
 									      <td>{{entity.name}}</td>
 									      <td>{{entity.typeId}}</td>
-										  <td>
-											  <span ng-if="grade!=3">
-													<button type="button" class="btn bg-olive btn-xs" ng-click="setGrade(grade+1);selectList(entity)">查询下级</button>
-											  </span>
-										  </td>
 										  <td class="text-center">
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" >edit</button>
+											  <span ng-if="grade!=3">
+												   <button type="button" class="btn bg-olive btn-xs" ng-click="setGrade(grade+1);selectList(entity)">sub category</button>
+											  </span>
+											  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" ng-click="findOne(entity.id)">edit</button>
 		                                  </td>
 			                          </tr>
 			                      </tbody>
@@ -106,26 +110,31 @@
 			
 			<table class="table table-bordered table-striped"  width="800px">
 				<tr>
-		      		<td>parent category</td>
+		      		<td>Parent category</td>
 		      		<td>
-						health-and-beauty >>  jordana-makeup
+						{{entity_1.name}} >>  {{entity_2.name}}
 		      		</td>
 		      	</tr>
 		      	<tr>
-		      		<td>category name</td>
-		      		<td><input  class="form-control" placeholder="商品分类名称">  </td>
+		      		<td>Category name</td>
+		      		<td>
+						<input  class="form-control" placeholder="category name" ng-model="entity.name">
+					</td>
 		      	</tr>			  
 		      	<tr>
-		      		<td>category URL</td>
-		      		<td>	      		
-		      			<input select2 config="options['type_template']" placeholder="商品类型模板" class="form-control" type="text"/>
-		      		</td>		      		      		
+		      		<td>Type template</td>
+		      		<td>
+						<input select2  ng-model="entity.typeId"  config="typeTemplateList"  placeholder=" select type template " class="form-control">
+						<!--<input select2 config="typeTemplateList" placeholder="Type template id" class="form-control" type="text" ng-model="entity.typeId"/>-->
+                       <!-- <input select2 select2-model="entity.typeId"  config="typeTemplateList"  placeholder=" select type template " class="form-control">
+-->
+                    </td>
 		      	</tr>		      	
 			 </table>				
 			
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">save</button>
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="save()">save</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">close</button>
 		</div>
 	  </div>

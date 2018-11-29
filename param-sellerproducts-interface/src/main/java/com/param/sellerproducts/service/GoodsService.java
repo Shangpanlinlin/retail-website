@@ -3,6 +3,7 @@ import java.util.List;
 
 import com.param.pojo.TbGoods;
 
+import com.param.pojogroup.Goods;
 import entity.PageResult;
 /**
  * 服务层接口
@@ -28,7 +29,7 @@ public interface GoodsService {
 	/**
 	 * 增加
 	*/
-	public void add(TbGoods goods);
+	public void add(Goods goods);
 	
 	
 	/**
